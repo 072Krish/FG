@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Focus - All Tasks </title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mytask.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div>
+
+                <!-- Logo -->
+                <div class="logo">
+                    <div class="logo-box">
+                        <i class="fa-solid fa-infinity"></i>
+                    </div>
+
+                    <div>
+                        <h2>Focus Grid</h2>
+                        <p>To-Do Dashboard</p>
+                    </div>
+                </div>
+
+                <!-- Menu -->
+                <div class="menu-title">MENU</div>
+
+                <ul class="menu">
+                    <li onclick="window.location.href='dashboard.html'">
+                        <i class="fa-solid fa-house"></i>
+                        Dashboard
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-clipboard"></i>
+                        My Tasks
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-circle-check"></i>
+                        Completed Tasks
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-bookmark"></i>
+                        In Progress Tasks
+                    </li>
+
+
+                    <li>
+                        <i class="fa-regular fa-clock"></i>
+                        Pending Tasks
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-calendar"></i>
+                        Calendar
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-gear"></i>
+                        Settings
+                    </li>
+                </ul>
+
+                <!-- Labels -->
+                <div class="menu-title labels-title">LABELS</div>
+
+                <ul class="labels">
+
+                    <li>
+                        <span class="dot red"></span>
+                        High Priority
+                    </li>
+
+                    <li>
+                        <span class="dot yellow"></span>
+                        Medium Priority
+                    </li>
+
+                    <li>
+                        <span class="dot green"></span>
+                        Low Priority
+                    </li>
+
+                </ul>
+
+                <!-- Upgrade Card -->
+                <div class="upgrade-card">
+
+                    <h3>Boost Your<br>Productivity 🚀</h3>
+
+                    <p>You are doing great!</p>
+
+                    <div class="graph">
+                        <span></span>
+                    </div>
+
+                    <button>Upgrade Now</button>
+
+                </div>
+                <br>
+                <br>
+                <br>
+
+
+
+                <div class="collapse-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Collapse</span>
+                </div>
+
+            </div>
+
+        </aside>
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <!-- Left Side -->
+                <div class="header-left">
+
+                    <button id="menuToggle" class="menu-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div class="welcome">
+                        <h1>Manage Tasks</h1>
+                        <p>Prioritize Better, Work Smarter, Achieve More.</p>
+                    </div>
+
+                </div>
+
+                <!-- Right Side -->
+                <div class="top-actions">
+
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+
+                    <button id="resetFilters" class="reset-filter-btn" title="Clear Filters">
+                        <i class="fas fa-rotate-left"></i> </button>
+
+                    <button class="filter-btn" id="openFilter">
+                        <i class="fa-solid fa-filter"></i>
+                        Filters
+                    </button>
+
+                </div>
+
+            </header>
+
+            <!-- ================= OVERLAY ================= -->
+            <div class="filter-overlay" id="filterOverlay"></div>
+
+            <!-- ================= FILTER DRAWER ================= -->
+            <div class="filter-drawer" id="filterDrawer">
+
+                <!-- Header -->
+                <div class="drawer-header">
+                    <h2>Task Filters</h2>
+                    <button class="close-btn" id="closeFilter">&times;</button>
+                </div>
+
+                <!-- Search -->
+                <div class="filter-group">
+                    <label>Search Task</label>
+                    <input type="text" id="taskSearch" placeholder="Search by task name...">
+                </div>
+
+                <!-- Priority -->
+                <div class="filter-group">
+                    <label>Priority</label>
+
+                    <label><input type="radio" name="priority" value="" checked> All</label>
+                    <label><input type="radio" name="priority" value="High"> High</label>
+                    <label><input type="radio" name="priority" value="Medium"> Medium</label>
+                    <label><input type="radio" name="priority" value="Low"> Low</label>
+                </div>
+
+                <!-- Status -->
+                <div class="filter-group">
+                    <label>Status</label>
+
+                    <label><input type="radio" name="status" value="" checked> All</label>
+                    <label><input type="radio" name="status" value="Pending"> Pending</label>
+                    <label><input type="radio" name="status" value="In Progress"> In Progress</label>
+                    <label><input type="radio" name="status" value="Completed"> Completed</label>
+                </div>
+
+                <!-- Sort -->
+                <div class="filter-group">
+                    <label>Sort By</label>
+
+                    <select id="sortType">
+                        <option value="">None</option>
+                        <option value="az">A - Z</option>
+                        <option value="za">Z - A</option>
+                        <option value="high">Priority (High → Low)</option>
+                        <option value="low">Priority (Low → High)</option>
+                    </select>
+                </div>
+
+                <!-- Buttons -->
+                <div class="drawer-buttons">
+                    <button class="reset-btn" type="button">Reset</button>
+                    <button class="apply-btn" type="button">Apply</button>
+                </div>
+
+            </div>
+
+
+            <!-- ================= TASKS CONTAINER ================= -->
+            <div class="tasks-container" id="tasksContainer"></div>
+
+            <!-- No Results -->
+            <div id="noResults" style="display:none; text-align:center; margin-top:20px;">
+                No Result found
+            </div>
+
+            <!-- Link Card -->
+            <div id="noResults">
+                No Result Found
+            </div>
+            <div id="tasksContainer" class="tasks-container">
+            </div>
+
+            <div class="edit-modal" id="editModal">
+
+                <div class="edit-modal-content">
+
+                    <button class="close-modal" id="closeEdit">×</button>
+
+                    <h2>Edit Task</h2>
+
+                    <input type="text" id="editTaskName" placeholder="Task Name">
+
+                    <select id="editTaskStatus">
+                        <option value="pending">Pending</option>
+                        <option value="progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+
+                    <button id="saveChanges" class="save-btn">
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </div>
+
+            <script src="mytask.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</body>
+
+</html>
