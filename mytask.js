@@ -7,59 +7,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const mainContent = document.querySelector(".main-content");
     const collapseBtn = document.querySelector(".collapse-btn");
 
-    // Mobile & Tablet → hidden by default
+    function toggleSidebarState() {
+        sidebar.classList.toggle("hidden");
+        mainContent.classList.toggle("expanded");
+    }
+
     if (window.innerWidth <= 992) {
         sidebar.classList.add("hidden");
+        mainContent.classList.add("expanded");
     }
 
-    // Hamburger Toggle
     if (menuToggle) {
-
         menuToggle.addEventListener("click", () => {
-
-            sidebar.classList.toggle("hidden");
-
+            toggleSidebarState();
         });
-
     }
 
-    // Collapse Button
     if (collapseBtn) {
-
         collapseBtn.addEventListener("click", () => {
-
             if (window.innerWidth <= 992) {
-
-                // Mobile & Tablet → Close Sidebar
                 sidebar.classList.add("hidden");
-
+                mainContent.classList.add("expanded");
             } else {
-
-                // Desktop → Collapse Sidebar
-                sidebar.classList.toggle("collapsed");
-
+                toggleSidebarState();
             }
-
         });
-
     }
 
     // Resize Handle
     window.addEventListener("resize", () => {
-
         if (window.innerWidth > 992) {
-
             sidebar.classList.remove("hidden");
-
+            mainContent.classList.remove("expanded");
         } else {
-
             sidebar.classList.add("hidden");
-
-            // Mobile par collapsed mode remove
-            sidebar.classList.remove("collapsed");
-
+            mainContent.classList.add("expanded");
         }
-
     });
     // ================= DARK / LIGHT MODE =================
 
@@ -116,6 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeEdit = document.getElementById("closeEdit");
 
     let currentTaskId = null;
+
+    // ================= PAGINATION =================
+
+    let currentPage = 1;
+    const tasksPerPage = 10;
+
     function loadMyTasks() {
 
         const container = document.getElementById("tasksContainer");
@@ -134,7 +123,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        tasks.forEach(task => {
+        // ================= PAGINATION =================
+
+        const start = (currentPage - 1) * tasksPerPage;
+        const end = start + tasksPerPage;
+
+        const pageTasks = tasks.slice(start, end);
+
+        pageTasks.forEach(task => {
 
             const card = document.createElement("div");
 
@@ -193,10 +189,134 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+        renderPagination(tasks.length);
+
     }
 
     loadMyTasks();
 
+    function renderPagination(totalTasks) {
+
+        const pagination = document.getElementById("pagination");
+
+        if (!pagination) return;
+
+        pagination.innerHTML = "";
+
+        const totalPages = Math.ceil(totalTasks / tasksPerPage);
+
+        if (totalPages <= 1) return;
+
+        // First
+        const firstBtn = document.createElement("button");
+        firstBtn.className = "page-btn";
+        firstBtn.innerHTML = '<i class="fas fa-angle-double-left"></i>';
+        firstBtn.disabled = currentPage === 1;
+
+        firstBtn.addEventListener("click", () => {
+            currentPage = 1;
+            loadMyTasks();
+        });
+
+        pagination.appendChild(firstBtn);
+
+        // Previous
+        const prevBtn = document.createElement("button");
+        prevBtn.className = "page-btn";
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevBtn.disabled = currentPage === 1;
+
+        prevBtn.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                loadMyTasks();
+            }
+        });
+
+        pagination.appendChild(prevBtn);
+
+        let startPage = Math.max(1, currentPage - 1);
+        let endPage = Math.min(totalPages, currentPage + 1);
+
+        // First Page
+        if (startPage > 1) {
+            const first = document.createElement("button");
+            first.className = "page-btn";
+            first.textContent = "1";
+            first.onclick = () => {
+                currentPage = 1;
+                loadMyTasks();
+            };
+            pagination.appendChild(first);
+        }
+
+        // Left Dots
+        if (startPage > 2) {
+            const dots = document.createElement("span");
+            dots.className = "page-btn dots";
+            dots.textContent = "...";
+            pagination.appendChild(dots);
+        }
+
+        // Visible Pages
+        for (let i = startPage; i <= endPage; i++) {
+            const button = document.createElement("button");
+            button.className = "page-btn";
+            if (i === currentPage) {
+                button.classList.add("active");
+            }
+            button.textContent = i;
+            button.onclick = () => {
+                currentPage = i;
+                loadMyTasks();
+            };
+            pagination.appendChild(button);
+        }
+
+        // Right Dots
+        if (endPage < totalPages - 1) {
+            const dots = document.createElement("span");
+            dots.className = "page-btn dots";
+            dots.textContent = "...";
+            pagination.appendChild(dots);
+        }
+
+        // Last Page
+        if (endPage < totalPages) {
+            const last = document.createElement("button");
+            last.className = "page-btn";
+            last.textContent = totalPages;
+            last.onclick = () => {
+                currentPage = totalPages;
+                loadMyTasks();
+            };
+            pagination.appendChild(last);
+        }
+
+        // ================= NEXT =================
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "page-btn";
+        nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadMyTasks();
+            }
+        });
+        pagination.appendChild(nextBtn);
+
+        // ================= LAST =================
+        const lastBtn = document.createElement("button");
+        lastBtn.className = "page-btn";
+        lastBtn.innerHTML = '<i class="fas fa-angle-double-right"></i>';
+        lastBtn.disabled = currentPage === totalPages;
+        lastBtn.addEventListener("click", () => {
+            currentPage = totalPages;
+            loadMyTasks();
+        });
+        pagination.appendChild(lastBtn);
+    }
     // ================= SAVE CHANGES =================
 
     saveChanges.addEventListener("click", () => {

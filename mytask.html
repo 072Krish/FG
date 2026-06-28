@@ -47,7 +47,7 @@
                         Dashboard
                     </li>
 
-                    <li>
+                    <li class="active">
                         <i class="fa-regular fa-clipboard"></i>
                         My Tasks
                     </li>
@@ -230,6 +230,7 @@
 
             <!-- ================= TASKS CONTAINER ================= -->
             <div class="tasks-container" id="tasksContainer"></div>
+            <div id="pagination" class="pagination"></div>
 
             <!-- No Results -->
             <div id="noResults" style="display:none; text-align:center; margin-top:20px;">
@@ -240,9 +241,7 @@
             <div id="noResults">
                 No Result Found
             </div>
-            <div id="tasksContainer" class="tasks-container">
-            </div>
-
+            
             <div class="edit-modal" id="editModal">
 
                 <div class="edit-modal-content">
@@ -266,6 +265,7 @@
                 </div>
 
             </div>
+
 
             <script src="mytask.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
